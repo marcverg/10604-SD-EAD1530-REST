@@ -1,3 +1,6 @@
+// Sistema de Pedidos Pizzaria Master
+// Programador: *****
+// Data de Alteração: 16-08-2019
 unit UFrmPrincipal;
 
 interface
@@ -32,7 +35,7 @@ var
 implementation
 
 uses
-  Rest.JSON, MVCFramework.RESTClient, UEfetuarPedidoDTOImpl, System.Rtti,
+  Rest.JSON, MVCFramework.RESTClient, UPedidoRealizaDTOImpl, System.Rtti,
   UPizzaSaborEnum, UPizzaTamanhoEnum;
 
 {$R *.dfm}
@@ -40,22 +43,22 @@ uses
 procedure TForm1.Button1Click(Sender: TObject);
 var
   Clt: TRestClient;
-  oEfetuarPedido: TEfetuarPedidoDTO;
+  oPedidoRealiza: TEfetuarPedidoDTO;
 begin
   Clt := MVCFramework.RESTClient.TRestClient.Create(edtEnderecoBackend.Text,
     StrToIntDef(edtPortaBackend.Text, 80), nil);
   try
-    oEfetuarPedido := TEfetuarPedidoDTO.Create;
+    oPedidoRealiza := ToPedidoRealiza.Create;
     try
-      oEfetuarPedido.PizzaTamanho :=
+      oPedidoRealiza.PizzaTamanho :=
         TRttiEnumerationType.GetValue<TPizzaTamanhoEnum>(cmbTamanhoPizza.Text);
-      oEfetuarPedido.PizzaSabor :=
+      oPedidoRealiza.PizzaSabor :=
         TRttiEnumerationType.GetValue<TPizzaSaborEnum>(cmbSaborPizza.Text);
-      oEfetuarPedido.DocumentoCliente := edtDocumentoCliente.Text;
+      oPedidoRealiza.DocumentoCliente := edtDocumentoCliente.Text;
       mmRetornoWebService.Text := Clt.doPOST('/efetuarPedido', [],
-        TJson.ObjecttoJsonString(oEfetuarPedido)).BodyAsString;
+        TJson.ObjecttoJsonString(oPedidoRealiza)).BodyAsString;
     finally
-      oEfetuarPedido.Free;
+      oPedidoRealiza.Free;
     end;
   finally
     Clt.Free;

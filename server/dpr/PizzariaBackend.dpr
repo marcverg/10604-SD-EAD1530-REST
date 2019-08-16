@@ -1,3 +1,6 @@
+// Sistema de Pedidos Pizzaria Master
+// Programador: *****
+// Data de Alteração: 16-08-2019
 program PizzariaBackend;
 
 {$APPTYPE CONSOLE}
@@ -37,7 +40,7 @@ uses
   UClienteRepositoryIntf in '..\pas\repository\UClienteRepositoryIntf.pas',
   System.Classes,
   System.Types,
-  UEfetuarPedidoDTOImpl in '..\..\shared\pas\dto\UEfetuarPedidoDTOImpl.pas';
+  UPedidoRealizaDTOImpl in '..\..\shared\pas\dto\UPedidoRealizaDTOImpl.pas';
 
 {$R *.res}
 

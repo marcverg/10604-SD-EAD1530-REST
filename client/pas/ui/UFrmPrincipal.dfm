@@ -68,7 +68,7 @@ object Form1: TForm1
   end
   object Button1: TButton
     Left = 104
-    Top = 217
+    Top = 223
     Width = 105
     Height = 25
     Caption = '&1 - Fazer Pedido'

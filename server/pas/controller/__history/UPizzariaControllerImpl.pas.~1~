@@ -4,7 +4,9 @@ interface
 
 {$I dmvcframework.inc}
 
-uses MVCFramework, MVCFramework.Logger, MVCFramework.Commons,
+uses MVCFramework,
+  MVCFramework.Logger,
+  MVCFramework.Commons,
   Web.HTTPApp, UPizzaTamanhoEnum, UPizzaSaborEnum, UEfetuarPedidoDTOImpl;
 
 type
@@ -13,38 +15,42 @@ type
   [MVCPath('/')]
   TPizzariaBackendController = class(TMVCController)
   public
+
     [MVCDoc('Criar novo pedido "201: Created"')]
-    [MVCPath('/PedidoRealiza')]
+    [MVCPath('/efetuarPedido')]
     [MVCHTTPMethod([httpPOST])]
-    procedure PedidoRealiza(const AContext: TWebContext);
+    procedure efetuarPedido(const AContext: TWebContext);
   end;
 
 implementation
 
 uses
-  System.SysUtils, Rest.json, MVCFramework.SystemJSONUtils, UPedidoServiceIntf,
+  System.SysUtils,
+  Rest.json,
+  MVCFramework.SystemJSONUtils,
+  UPedidoServiceIntf,
   UPedidoServiceImpl, UPedidoRetornoDTOImpl;
 
 { TApp1MainController }
 
-procedure TPizzariaBackendController.PedidoRealiza(const AContext: TWebContext);
+procedure TPizzariaBackendController.efetuarPedido(const AContext: TWebContext);
 var
-  oPedidoRealizaDTO: TPedidoRealizaDTO;
+  oEfetuarPedidoDTO: TEfetuarPedidoDTO;
   oPedidoRetornoDTO: TPedidoRetornoDTO;
 begin
-  oPedidoRealizaDTO := AContext.Request.BodyAs<TPedidoRealizaDTO>;
+  oEfetuarPedidoDTO := AContext.Request.BodyAs<TEfetuarPedidoDTO>;
   try
     with TPedidoService.Create do
     try
-      oPedidoRetornoDTO := efetuarPedido(oPedidoRealizaDTO.PizzaTamanho, oPedidoRealizaDTO.PizzaSabor, oPedidoRealizaDTO.DocumentoCliente);
+      oPedidoRetornoDTO := efetuarPedido(oEfetuarPedidoDTO.PizzaTamanho, oEfetuarPedidoDTO.PizzaSabor, oEfetuarPedidoDTO.DocumentoCliente);
       Render(TJson.ObjectToJsonString(oPedidoRetornoDTO));
     finally
       oPedidoRetornoDTO.Free
     end;
   finally
-    oPedidoRealizaDTO.Free;
+    oEfetuarPedidoDTO.Free;
   end;
-  Log.Info('==>Executou o método ', 'PedidoRealiza');
+  Log.Info('==>Executou o método ', 'efetuarPedido');
 end;
 
 end.
